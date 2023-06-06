@@ -1,0 +1,107 @@
+public class Cliente {
+
+    protected int idCli;
+    protected String nome;
+    protected String tel;
+
+    // construtor usando para criar objeto usuário antes de cadastrar no BD. 
+    // Após o cadastramento o banco criar o idCli e 
+    // insere com os demais dados do novo usuário
+    public Cliente(String nome, String tel) {
+        this.nome = nome;
+        this.tel = tel;
+    }
+
+    public Cliente(int idCli, String nome, String tel) {
+        this.idCli = idCli;
+        this.nome = nome;
+        this.tel = tel;
+    }
+
+    public Cliente() {
+    }
+
+    public int getIdCli() {
+        return idCli;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setIdCli(int idCli) {
+        this.idCli = idCli;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+}
+
+
+
+==============================================
+Tables
+
+create table Mecanico (
+idMeca int not null auto_increment,
+CREA int unsigned not null,
+nome varchar(45) not null,
+endereco VARCHAR(100),
+celular INT(9),
+CPF int(11) not null,
+PRIMARY KEY(idMeca)
+);
+
+create table Revisao(
+idRevisao int not null auto_increment,
+idMeca int not null,
+datahora varchar(50),
+relatorio varchar(100),
+PRIMARY KEY(idRevisao),
+FOREIGN KEY (idMeca) REFERENCES Mecanico(idMeca)
+);
+
+create table Dono(
+idDono int not null auto_increment,
+CNH int(11) not null,
+nome varchar(45),
+endereco varchar(100),
+telefone int(13),
+PRIMARY KEY(idDono)
+);
+
+create table Veiculo(
+idVeiculo int not null auto_increment,
+idRevisao int not null default 0,
+idDono int(11) not null default 0,
+placa varchar(4) not null,
+ano int(4),
+RENAVEM varchar(9),
+modelo varchar(45),
+marca varchar(45),
+PRIMARY KEY(idVeiculo),
+FOREIGN KEY (idRevisao) REFERENCES Revisao(idRevisao),
+FOREIGN KEY (idDono) REFERENCES Dono(idDono)
+);
+
+create table VeiculoPesado(
+idVeiculoPesado int not null auto_increment,
+idVeiculo int not null,
+comprimentoMetros int,
+numEixos int,
+pesoToneladas int,
+PRIMARY KEY (idVeiculoPesado),
+FOREIGN KEY (idVeiculo) REFERENCES Veiculo(idVeiculo)
+);
+
+
